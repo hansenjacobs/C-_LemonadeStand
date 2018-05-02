@@ -8,27 +8,31 @@ namespace LemonadeStand
 {
     abstract class Player
     {
-        private double _bankBalance;
-        private string _name;
+        private double bankBalance;
+        private string name;
 
         public double BankBalance
         {
-            get { return _bankBalance; }
+            get { return bankBalance; }
         }
 
         public string Name
         {
-            get { return _name; }
+            get { return name; }
 
-            set { _name = value; }
+            set { name = value; }
         }
 
         public Player()
         {
-            _bankBalance = 50;
+            bankBalance = 50;
+            name = "";
         }
 
-        
+        public void SetPlayerName(string playerLabel)
+        {
+            Name = UI.GetInput($"Enter {playerLabel}'s name:", "string");
+        }
 
     }
 }
