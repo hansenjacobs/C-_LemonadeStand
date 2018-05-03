@@ -33,7 +33,7 @@ namespace LemonadeStand
                 days.Add(new Day(random));
                 UI.DisplayForecast(days[i].Forecast);
                 SendPlayersToStore();
-                // Each player enters recipe
+                days[i].SetPlayerRecipes(store.Products);
                 // Cycle through customers
                 // Display day's results
             }

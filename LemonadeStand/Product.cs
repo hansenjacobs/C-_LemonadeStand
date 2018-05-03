@@ -11,12 +11,14 @@ namespace LemonadeStand
         string name;
         double price;
         string unit;
+        string recipePart;
 
-        public Product(string name, double price, string unit)
+        public Product(string name, double price, string unit, string recipePart)
         {
             this.name = name;
             this.price = price;
             this.unit = unit;
+            this.recipePart = recipePart;
         }
 
         public string Name
@@ -31,10 +33,17 @@ namespace LemonadeStand
             private set { price = value; }
         }
 
+        public string RecipePart
+        {
+            get { return recipePart; }
+            private set { recipePart = value; }
+        }
+
         public string Unit
         {
             get { return unit; }
             private set { unit = value; }
         }
+
     }
 }

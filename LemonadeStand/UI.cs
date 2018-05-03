@@ -130,6 +130,35 @@ namespace LemonadeStand
             return false;
         }
 
+        public static void SetRecipe(Recipe recipe, string playerName)
+        {
+            WriteLine($"{playerName}, what will your secret recipe be?");
+
+            foreach(Ingredient ingredient in recipe.Pitcher)
+            {
+                if(ingredient.Unit == "each")
+                {
+                    ingredient.Measurement = int.Parse(GetInput($"How many {ingredient.Name}s do you want to use per pitcher?", "integer greater than 0"));
+                }
+                else
+                {
+                    ingredient.Measurement = int.Parse(GetInput($"How many {ingredient.Unit}s of {ingredient.Name} do you want to use per pitcher?", "integer greater than 0"));
+                }
+            }
+
+            foreach (Ingredient ingredient in recipe.Cup)
+            {
+                if (ingredient.Unit == "each" && ingredient.Name != "cup")
+                {
+                    ingredient.Measurement = int.Parse(GetInput($"How many {ingredient.Name}s do you want to use per cup?", "integer greater than 0"));
+                }
+                else if (ingredient.Name != "cup")
+                {
+                    ingredient.Measurement = int.Parse(GetInput($"How many {ingredient.Unit}s of {ingredient.Name} do you want to use per cup?", "integer greater than 0"));
+                }
+            }
+        }
+
         public static void ShopProduct(string item, Product product, Player player)
         {
             int quanity;

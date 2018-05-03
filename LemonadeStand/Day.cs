@@ -11,6 +11,8 @@ namespace LemonadeStand
         List<Weather> forecast;
         Random random;
         int numberOfDaysToforecastWeather;
+        List<Recipe> recipes;
+        List<Player> players;
 
         public List<Weather> Forecast
         {
@@ -25,7 +27,7 @@ namespace LemonadeStand
             Forecast = new List<Weather>();
         }
 
-        public Day(Random random, List<Weather> previousforecast)
+        public Day(Random random, List<Weather> previousforecast, List<Player> players)
         {
             this.random = random;
             numberOfDaysToforecastWeather = 7;
@@ -33,6 +35,8 @@ namespace LemonadeStand
             Forecast.AddRange(previousforecast);
             Forecast.RemoveAt(0);
             Updateforecast();
+            recipes = new List<Recipe>();
+            this.players = players;
         }
 
         private void Createforecast()
@@ -47,6 +51,15 @@ namespace LemonadeStand
                 {
                     Forecast.RemoveAt(Forecast.Count - 1);
                 }
+            }
+        }
+
+        public void SetPlayerRecipes(List<Product> products)
+        {
+            for (int i = 0; i < players.Count; i++)
+            {
+                recipes.Add(new Recipe(products));
+                recipes[i].SetRecipe(players[i].Name);
             }
         }
 
