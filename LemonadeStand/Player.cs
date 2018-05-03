@@ -6,14 +6,23 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand
 {
-    abstract class Player
+    abstract public class Player
     {
-        private double bankBalance;
-        private string name;
+        double bankBalance;
+        string name;
+        Dictionary<string, int> inventory;
+        
 
         public double BankBalance
         {
             get { return bankBalance; }
+            private set { bankBalance = value; }
+        }
+
+        public Dictionary<string, int> Invetory
+        {
+            get { return inventory; }
+            private set { inventory = value; }
         }
 
         public string Name
@@ -23,10 +32,48 @@ namespace LemonadeStand
             set { name = value; }
         }
 
-        public Player()
+        public Player(Store store)
         {
             bankBalance = 50;
             name = "";
+            for(int i = 0; i < store.Products.Count; i++)
+            {
+                inventory.Add(store.Products[i].Name, 0);
+            }
+        }
+
+        public int AdjustInventory(string item, int quanityIncrementer)
+        {
+            int currentQuanity;
+
+            if(inventory.TryGetValue(item, out currentQuanity))
+            {
+                inventory[item] = currentQuanity + quanityIncrementer;
+            }
+            else
+            {
+                inventory[item] = quanityIncrementer > 0 ? quanityIncrementer : 0;
+            }
+
+            return inventory[item];
+        }
+
+        public void DisplayBankBalance()
+        {
+            UI.DisplayPlayerBankBalance(this);
+        }
+
+        public void GoShopping(Store store)
+        {
+            if (UI.GetInput($"{name} would you like to visit the store for supplies? <yes/no>", "yes/no") == "yes")
+            {
+                UI.GoShopping(this, store);
+            }
+        }
+
+        public double ProcessBankTransaction(double transactionAmount)
+        {
+            return BankBalance += transactionAmount;
         }
 
         public void SetPlayerName(string playerLabel)

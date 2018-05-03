@@ -12,6 +12,7 @@ namespace LemonadeStand
         List<Day> days;
         int numberOfDaysToPlay;
         Random random;
+        Store store;
 
         public Game()
         {
@@ -19,6 +20,7 @@ namespace LemonadeStand
             players = new List<Player>();
             days = new List<Day>();
             numberOfDaysToPlay = 7;
+            store = new Store();
         }
 
         public void RunGame()
@@ -29,9 +31,8 @@ namespace LemonadeStand
             for(int i = 0; i < numberOfDaysToPlay; i++)
             {
                 days.Add(new Day(random));
-                // Display weekly forecast
-                UI.Displayforecast(days[i].Forecast);
-                // Offer store to each player
+                UI.DisplayForecast(days[i].Forecast);
+                SendPlayersToStore();
                 // Each player enters recipe
                 // Cycle through customers
                 // Display day's results
@@ -44,14 +45,22 @@ namespace LemonadeStand
             // Annouce winner if multiple players
         }
 
+        public void SendPlayersToStore()
+        {
+            foreach(Player player in players)
+            {
+                player.GoShopping(store);
+            }
+        }
+
         public void SetupComputerPlayer()
         {
             bool includeComputerPlayer;
-            includeComputerPlayer = UI.GetInput("Would you like to include a computer player?", "yesNo") == "yes" ? true : false;
+            includeComputerPlayer = UI.GetInput("Would you like to include a computer player?", "yes/no") == "yes" ? true : false;
 
             if (includeComputerPlayer)
             {
-                players.Add(new Computer());
+                players.Add(new Computer(random, store));
                 players[players.Count - 1].SetPlayerName("Computer Player");
             }
         }
@@ -64,7 +73,7 @@ namespace LemonadeStand
 
             for (int i = 0; i < playerCount; i++)
             {
-                players.Add(new Human());
+                players.Add(new Human(store));
                 players[i].SetPlayerName($"Player {i}");
             }
         }
@@ -73,7 +82,7 @@ namespace LemonadeStand
         {
 
             SetupHumanPlayers();
-
+            SetupComputerPlayer();
             
         }
     }

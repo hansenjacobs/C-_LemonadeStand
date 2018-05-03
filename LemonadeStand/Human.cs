@@ -8,5 +8,9 @@ namespace LemonadeStand
 {
     class Human : Player
     {
+        public Human(Store store) : base(store)
+        {
+
+        }
     }
 }

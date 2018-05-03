@@ -8,5 +8,11 @@ namespace LemonadeStand
 {
     class Computer : Player
     {
+        Random random;
+
+        public Computer(Random random, Store store) : base(store)
+        {
+            this.random = random;
+        }
     }
 }
