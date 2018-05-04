@@ -11,12 +11,19 @@ namespace LemonadeStand
         double bankBalance;
         string name;
         Dictionary<string, int> inventory;
+        List<DayDetails> dayDetails;
         
 
         public double BankBalance
         {
             get { return bankBalance; }
             private set { bankBalance = value; }
+        }
+
+        public List<DayDetails> DayDetails
+        {
+            get { return dayDetails; }
+            set { dayDetails = value; }
         }
 
         public Dictionary<string, int> Invetory
@@ -40,6 +47,7 @@ namespace LemonadeStand
             {
                 inventory.Add(store.Products[i].Name, 0);
             }
+            dayDetails = new List<DayDetails>();
         }
 
         public int AdjustInventory(string item, int quanityIncrementer)
@@ -71,6 +79,33 @@ namespace LemonadeStand
             }
         }
 
+        private bool IsSufficentInventoryPitcher(Recipe recipe)
+        {
+            for(int i = 0; i < recipe.Pitcher.Count; i++)
+            {
+                if(recipe.Pitcher[i].Measurement > inventory[recipe.Pitcher[i].Name])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public bool MakePitcher(Recipe recipe)
+        {
+            if (IsSufficentInventoryPitcher(recipe))
+            {
+                for (int i = 0; i < recipe.Pitcher.Count; i++)
+                {
+                    UseInventory(recipe.Pitcher[i].Name, recipe.Pitcher[i].Measurement);
+                }
+
+                return true;
+            }
+            
+            return false;
+        }
+
         public double ProcessBankTransaction(double transactionAmount)
         {
             return BankBalance += transactionAmount;
@@ -79,6 +114,11 @@ namespace LemonadeStand
         public void SetPlayerName(string playerLabel)
         {
             Name = UI.GetInput($"Enter {playerLabel}'s name:", "string");
+        }
+
+        private void UseInventory(string item, int quanity)
+        {
+            inventory[item] -= quanity;
         }
 
     }

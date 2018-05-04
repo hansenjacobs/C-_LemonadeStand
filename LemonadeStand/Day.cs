@@ -17,25 +17,29 @@ namespace LemonadeStand
         List<Recipe> recipes;
         List<Player> players;
         List<Customer> customers;
+        int dayNumber;
 
-        public Day(Random random, List<Player> players)
+        public Day(Random random, List<Player> players, int dayNumber)
         {
             this.random = random;
             Forecast = new List<Weather>();
+            CreateForecast();
             recipes = new List<Recipe>();
+            customers = new List<Customer>();
             this.players = players;
+            this.dayNumber = dayNumber;
         }    
 
-        public Day(Random random, List<Player> players, List<Weather> previousforecast)
+        public Day(Random random, List<Player> players, List<Weather> previousforecast, int dayNumber)
         {
             this.random = random;
-            numberOfDaysToforecastWeather = 7;
             Forecast = new List<Weather>();
             Forecast.AddRange(previousforecast);
             Forecast.RemoveAt(0);
             Updateforecast();
             recipes = new List<Recipe>();
             this.players = players;
+            this.dayNumber = dayNumber;
         }
 
         public List<Weather> Forecast
@@ -52,10 +56,9 @@ namespace LemonadeStand
         private void CreateCustomers()
         {
             int customerCount = CalculateCustomerCount();
-            // Create each potential customer
             for(int i = 0; i < customerCount; i++)
             {
-                // Create customer, pass in forecast
+                customers.Add(new Customer(random, forecast[0]));
             }
         }
 
@@ -81,6 +84,56 @@ namespace LemonadeStand
                 recipes.Add(new Recipe(products));
                 recipes[i].SetRecipe(players[i].Name);
             }
+        }
+
+        public void SimulateDay()
+        {
+            for(int i = 0; i < players.Count; i++)
+            {
+                Player player = players[i];
+                int cupsRemainingInPitcher = 0;
+                player.DayDetails.Insert(dayNumber, new DayDetails());
+                player.DayDetails[dayNumber].BankAccountStartingBalance = player.BankBalance;
+                player.DayDetails[dayNumber].BankAccountEndingBalance = player.BankBalance;
+                player.DayDetails[dayNumber].PotentialCustomerCount = customers.Count;
+
+                foreach(Customer customer in customers)
+                {
+                    if (customer.DoesPurchase(forecast[0], recipes[i]))
+                    {
+                        if (cupsRemainingInPitcher > 0 && player.Invetory["cup"] > 0 && player.Invetory["ice cube"] >= recipes[i].IceCubeCount)
+                        {
+                            player.DayDetails[dayNumber].RecordPurchase(recipes[i].SellPrice);
+                            cupsRemainingInPitcher--;
+                        }
+                        else if (player.Invetory["cup"] > 0 && player.Invetory["ice cube"] >= recipes[i].IceCubeCount)
+                        {
+                            if (player.MakePitcher(recipes[i]))
+                            {
+                                cupsRemainingInPitcher = Recipe.CupsPerPitcher;
+                                player.DayDetails[dayNumber].RecordPurchase(recipes[i].SellPrice);
+                                cupsRemainingInPitcher--;
+                            }
+                            else
+                            {
+                                player.DayDetails[dayNumber].RanOutOfInventory = true;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            player.DayDetails[dayNumber].RanOutOfInventory = true;
+                            break;
+                        }
+
+                    }
+
+                }
+
+            }
+            
+            // Display day results for each player
+
         }
 
         private void Updateforecast()

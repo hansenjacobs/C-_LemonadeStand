@@ -10,8 +10,11 @@ namespace LemonadeStand
     {
         
         static string[] tasteProfiles = new string[] { "tart", "balanced", "sweet" };
+        static int cupsPerPitcher = 10;
+
         List<Ingredient> cup;
         List<Ingredient> pitcher;
+        double sellPrice;
 
         public Recipe(List<Product> products)
         {
@@ -39,10 +42,27 @@ namespace LemonadeStand
             private set { cup = value; }
         }
 
+        public static int CupsPerPitcher
+        {
+            get { return cupsPerPitcher; }
+            private set { cupsPerPitcher = value; }
+        }
+
+        public int IceCubeCount
+        {
+            get { return cup.Where(i => i.Name == "ice cube").First().Measurement; }
+        }
+
         public List<Ingredient> Pitcher
         {
             get { return pitcher; }
             private set { pitcher = value; }
+        }
+
+        public double SellPrice
+        {
+            get { return sellPrice; }
+            set { sellPrice = value; }
         }
 
         public string TasteProfile

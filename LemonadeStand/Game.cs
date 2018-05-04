@@ -32,11 +32,11 @@ namespace LemonadeStand
             {
                 if(i != 0)
                 {
-                    days.Add(new Day(random, players, days[i - 1].Forecast));
+                    days.Add(new Day(random, players, days[i - 1].Forecast, i));
                 }
                 else
                 {
-                    days.Add(new Day(random, players));
+                    days.Add(new Day(random, players, i));
                 }
                 UI.DisplayForecast(days[i].Forecast);
                 SendPlayersToStore();

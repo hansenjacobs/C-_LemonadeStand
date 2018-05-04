@@ -56,6 +56,10 @@ namespace LemonadeStand
                         isInvalid = !IsValidIntGreaterThanEqualZer0(input);
                         break;
 
+                    case "double (decimal number) greater than 0.00":
+                        isInvalid = !IsValidDoubleGreaterThanZero(input);
+                        break;
+
                     case "yes/no":
                         isInvalid = !IsValidYesNo(input);
                         break;
@@ -94,6 +98,19 @@ namespace LemonadeStand
                 }
             } while (input != "done");
 
+        }
+
+        private static bool IsValidDoubleGreaterThanZero (string str)
+        {
+            double doubleOut;
+            if(double.TryParse(str, out doubleOut))
+            {
+                if(doubleOut > 0.0)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private static bool IsValidIntGreaterThanEqualZer0(string str)
@@ -175,6 +192,8 @@ namespace LemonadeStand
                     ingredient.Measurement = int.Parse(GetInput($"How many {ingredient.Unit}s of {ingredient.Name} do you want to use per cup?", "integer greater than or equal to 0"));
                 }
             }
+
+            recipe.SellPrice = double.Parse(GetInput("Lastly, what price would you like to charge customers for a cup of your delicious lemonade?", "double (decimal number) greater than 0.00"));
         }
 
         public static void ShopProduct(string item, Product product, Player player)

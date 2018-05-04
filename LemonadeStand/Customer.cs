@@ -8,9 +8,13 @@ namespace LemonadeStand
 {
     class Customer
     {
+        int maxIceCubeCount = 8;
+        int minIceCubeCount = 0;
+
         Random random;
         Weather forecast;
         int tasteProfile;
+        int preferedIceCubeCount;
         int worstWeatherConditionsToBuy;
 
         public Customer(Random random, Weather forecast)
@@ -19,15 +23,19 @@ namespace LemonadeStand
             this.forecast = forecast;
             SetTasteProfile();
             SetWorstWeatherToBuy();
+            preferedIceCubeCount = random.Next(minIceCubeCount, maxIceCubeCount);
         }
 
-        public bool DecidePurchase(Weather weather, Recipe recipe)
+        public bool DoesPurchase(Weather weather, Recipe recipe)
         {
             if(weather.ConditionIndex <= worstWeatherConditionsToBuy)
             {
                 if(recipe.TasteProfile == Recipe.TasteProfiles[tasteProfile])
                 {
-                    return true;
+                    if(recipe.IceCubeCount >= preferedIceCubeCount - 1 && recipe.IceCubeCount <= preferedIceCubeCount + 1)
+                    {
+                        return true;
+                    }
                 }
             }
 
