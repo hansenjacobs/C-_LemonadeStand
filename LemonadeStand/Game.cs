@@ -26,11 +26,18 @@ namespace LemonadeStand
         public void RunGame()
         {
             SetupPlayers();
-            
+
             // Loop through X days
-            for(int i = 0; i < numberOfDaysToPlay; i++)
+            for (int i = 0; i < numberOfDaysToPlay; i++)
             {
-                days.Add(new Day(random));
+                if(i != 0)
+                {
+                    days.Add(new Day(random, players, days[i - 1].Forecast));
+                }
+                else
+                {
+                    days.Add(new Day(random, players));
+                }
                 UI.DisplayForecast(days[i].Forecast);
                 SendPlayersToStore();
                 days[i].SetPlayerRecipes(store.Products);

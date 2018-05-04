@@ -8,26 +8,25 @@ namespace LemonadeStand
 {
     class Day
     {
+        static int numberOfDaysToforecastWeather = 7;
+        static int minPotentialCustomers = 0;
+        static int maxPotentialCustomers = 175;
+
         List<Weather> forecast;
         Random random;
-        int numberOfDaysToforecastWeather;
         List<Recipe> recipes;
         List<Player> players;
+        List<Customer> customers;
 
-        public List<Weather> Forecast
-        {
-            get { return forecast; }
-            set { forecast = value; }
-        }
-
-        public Day(Random random)
+        public Day(Random random, List<Player> players)
         {
             this.random = random;
-            numberOfDaysToforecastWeather = 7;
             Forecast = new List<Weather>();
-        }
+            recipes = new List<Recipe>();
+            this.players = players;
+        }    
 
-        public Day(Random random, List<Weather> previousforecast, List<Player> players)
+        public Day(Random random, List<Player> players, List<Weather> previousforecast)
         {
             this.random = random;
             numberOfDaysToforecastWeather = 7;
@@ -39,7 +38,28 @@ namespace LemonadeStand
             this.players = players;
         }
 
-        private void Createforecast()
+        public List<Weather> Forecast
+        {
+            get { return forecast; }
+            set { forecast = value; }
+        }
+
+        private int CalculateCustomerCount()
+        {
+            return random.Next(minPotentialCustomers, maxPotentialCustomers) * (forecast[0].TempratureHigh / Weather.MaxTempratureHigh) / (forecast[0].ConditionIndex + 1);
+        }
+
+        private void CreateCustomers()
+        {
+            int customerCount = CalculateCustomerCount();
+            // Create each potential customer
+            for(int i = 0; i < customerCount; i++)
+            {
+                // Create customer, pass in forecast
+            }
+        }
+
+        private void CreateForecast()
         {
             while (Forecast.Count != numberOfDaysToforecastWeather)
             {
@@ -70,7 +90,7 @@ namespace LemonadeStand
                 Forecast[i].AlterForecast();
             }
 
-            Createforecast();
+            CreateForecast();
         }
         
 

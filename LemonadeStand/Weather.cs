@@ -11,22 +11,21 @@ namespace LemonadeStand
         Random random;
         int tempratureHigh;
         int condition;
-        List<string> conditions;
-        int snowTemprature;
-        int percentageDivisor;
-        int maxTempratureAlerterationPercent; // Int will be devided to calculate percentage.
+        static List<string> conditions;
+        static int percentageDivisor = 100;
+        static int maxTempratureAlerterationPercent = 5; // Int will be devided to calculate percentage.
+        static int minTempratureHigh = 55;
+        static int maxTempratureHigh = 120;
 
         public Weather(Random random)
         {
-            snowTemprature = 40;
-            percentageDivisor = 100;
-            maxTempratureAlerterationPercent = 5;
-
             this.random = random;
             conditions = new List<string>();
-            TempratureHigh = random.Next(35, 120);
-            CreateConditionsList();
-
+            TempratureHigh = random.Next(minTempratureHigh, maxTempratureHigh);
+            if(conditions.Count == 0)
+            {
+                CreateConditionsList();
+            }
         }
 
         public string Condition
@@ -45,6 +44,30 @@ namespace LemonadeStand
             }
         }
 
+        public static List<string> Conditions
+        {
+            get { return conditions; }
+            private set { conditions = value; }
+        }
+
+        public int ConditionIndex
+        {
+            get { return condition; }
+            private set { condition = value; }
+        }
+
+        public static int MaxTempratureHigh
+        {
+            get { return maxTempratureHigh; }
+            private set { maxTempratureHigh = value; }
+        }
+
+        public static int MinTempratureHigh
+        {
+            get { return minTempratureHigh; }
+            private set { minTempratureHigh = value; }
+        }
+
         public int TempratureHigh
         {
             get { return tempratureHigh; }
@@ -53,28 +76,13 @@ namespace LemonadeStand
 
         private void CreateConditionsList()
         {
-            conditions.Clear();
-
-            if (TempratureHigh > snowTemprature)
-            {
-                conditions.Add("mostly sunny");
-                conditions.Add("partly sunny");
-                conditions.Add("partly cloudy");
-                conditions.Add("mostly cloudy");
-                conditions.Add("partly cloudy with scattered rain showers");
-                conditions.Add("mostly cloudy with scattered rain showers");
-                conditions.Add("thunder storms");
-            }
-            else
-            {
-                conditions.Add("mostly sunny");
-                conditions.Add("partly sunny");
-                conditions.Add("partly cloudy");
-                conditions.Add("mostly cloudy");
-                conditions.Add("partly cloudy with snow flurries");
-                conditions.Add("mostly cloudy with light snow");
-                conditions.Add("blizzard");
-            }
+            conditions.Add("mostly sunny");
+            conditions.Add("partly sunny");
+            conditions.Add("partly cloudy");
+            conditions.Add("mostly cloudy");
+            conditions.Add("partly cloudy with scattered rain showers");
+            conditions.Add("mostly cloudy with scattered rain showers");
+            conditions.Add("thunder storms");
         }
 
         private void DetermineCondition()
@@ -92,7 +100,6 @@ namespace LemonadeStand
             int conditionChange;
 
             TempratureHigh = TempratureHigh + (TempratureHigh * (random.Next(maxTempratureAlerterationPercent) / percentageDivisor));
-            CreateConditionsList();
             
             conditionChange = random.Next(-1, 1);
             if(condition + conditionChange >= 0 && condition + conditionChange < conditions.Count)

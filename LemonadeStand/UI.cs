@@ -52,6 +52,10 @@ namespace LemonadeStand
                         isInvalid = !IsValidIntGreaterThanZero(input);
                         break;
 
+                    case "integer greater than or equal to 0":
+                        isInvalid = !IsValidIntGreaterThanEqualZer0(input);
+                        break;
+
                     case "yes/no":
                         isInvalid = !IsValidYesNo(input);
                         break;
@@ -90,6 +94,20 @@ namespace LemonadeStand
                 }
             } while (input != "done");
 
+        }
+
+        private static bool IsValidIntGreaterThanEqualZer0(string str)
+        {
+            int intOut;
+            if (int.TryParse(str, out intOut))
+            {
+                if (intOut >= 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private static bool IsValidIntGreaterThanZero(string str)
@@ -138,11 +156,11 @@ namespace LemonadeStand
             {
                 if(ingredient.Unit == "each")
                 {
-                    ingredient.Measurement = int.Parse(GetInput($"How many {ingredient.Name}s do you want to use per pitcher?", "integer greater than 0"));
+                    ingredient.Measurement = int.Parse(GetInput($"How many {ingredient.Name}s do you want to use per pitcher?", "integer greater than or equal to 0"));
                 }
                 else
                 {
-                    ingredient.Measurement = int.Parse(GetInput($"How many {ingredient.Unit}s of {ingredient.Name} do you want to use per pitcher?", "integer greater than 0"));
+                    ingredient.Measurement = int.Parse(GetInput($"How many {ingredient.Unit}s of {ingredient.Name} do you want to use per pitcher?", "integer greater than or equal to 0"));
                 }
             }
 
@@ -150,11 +168,11 @@ namespace LemonadeStand
             {
                 if (ingredient.Unit == "each" && ingredient.Name != "cup")
                 {
-                    ingredient.Measurement = int.Parse(GetInput($"How many {ingredient.Name}s do you want to use per cup?", "integer greater than 0"));
+                    ingredient.Measurement = int.Parse(GetInput($"How many {ingredient.Name}s do you want to use per cup?", "integer greater than or equal to 0"));
                 }
                 else if (ingredient.Name != "cup")
                 {
-                    ingredient.Measurement = int.Parse(GetInput($"How many {ingredient.Unit}s of {ingredient.Name} do you want to use per cup?", "integer greater than 0"));
+                    ingredient.Measurement = int.Parse(GetInput($"How many {ingredient.Unit}s of {ingredient.Name} do you want to use per cup?", "integer greater than or equal to 0"));
                 }
             }
         }

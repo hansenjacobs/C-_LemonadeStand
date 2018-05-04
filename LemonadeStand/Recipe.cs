@@ -8,7 +8,8 @@ namespace LemonadeStand
 {
     public class Recipe
     {
-
+        
+        static string[] tasteProfiles = new string[] { "tart", "balanced", "sweet" };
         List<Ingredient> cup;
         List<Ingredient> pitcher;
 
@@ -42,6 +43,30 @@ namespace LemonadeStand
         {
             get { return pitcher; }
             private set { pitcher = value; }
+        }
+
+        public string TasteProfile
+        {
+            get
+            {
+                Ingredient lemon = pitcher.Where(i => i.Name == "lemon").First();
+                Ingredient sugar = pitcher.Where(i => i.Name == "sugar").First();
+
+                int index = Convert.ToInt16(Math.Floor(Convert.ToDouble(lemon.Measurement) / Convert.ToDouble(sugar.Measurement)));
+
+                if(index >= tasteProfiles.Length)
+                {
+                    index = tasteProfiles.Length - 1;
+                }
+
+                return tasteProfiles[index];
+
+            }
+        }
+
+        public static string[] TasteProfiles
+        {
+            get { return tasteProfiles; }
         }
 
         public void SetRecipe(string playerName)
