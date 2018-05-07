@@ -9,6 +9,7 @@ namespace LemonadeStand
     class Game
     {
         List<Player> players;
+        Dictionary<int, double> finalScores;
         List<Day> days;
         int numberOfDaysToPlay;
         Random random;
@@ -27,7 +28,6 @@ namespace LemonadeStand
         {
             SetupPlayers();
 
-            // Loop through X days
             for (int i = 0; i < numberOfDaysToPlay; i++)
             {
                 if(i != 0)
@@ -41,18 +41,33 @@ namespace LemonadeStand
                 UI.DisplayForecast(days[i].Forecast);
                 SendPlayersToStore();
                 days[i].SetPlayerRecipes(store.Products);
-                // Cycle through customers
-                // Display day's results
+                days[i].SimulateDay();
             }
 
-
-            // Loop next day
-
-            // Display final results of each user
-            // Annouce winner if multiple players
+            UI.DisplayFinalScores(players, finalScores);
         }
 
-        public void SendPlayersToStore()
+        private void GetFinalScores()
+        {
+            finalScores = new Dictionary<int, double>();
+            for (int i = 0; i < players.Count; i++)
+            {
+                finalScores.Add(i, players[i].BankBalance);
+            }
+
+            var scores = from pair in finalScores
+                         orderby pair.Value descending
+                         select pair;
+
+            finalScores.Clear();
+
+            foreach(KeyValuePair<int, double> score in scores)
+            {
+                finalScores.Add(score.Key, score.Value);
+            }
+        }
+
+        private void SendPlayersToStore()
         {
             foreach(Player player in players)
             {
@@ -60,7 +75,7 @@ namespace LemonadeStand
             }
         }
 
-        public void SetupComputerPlayer()
+        private void SetupComputerPlayer()
         {
             bool includeComputerPlayer;
             includeComputerPlayer = UI.GetInput("Would you like to include a computer player?", "yes/no") == "yes" ? true : false;
@@ -72,7 +87,7 @@ namespace LemonadeStand
             }
         }
 
-        public void SetupHumanPlayers()
+        private void SetupHumanPlayers()
         {
             int playerCount;
 
@@ -85,7 +100,7 @@ namespace LemonadeStand
             }
         }
 
-        public void SetupPlayers()
+        private void SetupPlayers()
         {
 
             SetupHumanPlayers();

@@ -8,6 +8,19 @@ namespace LemonadeStand
 {
     public static class UI
     {
+        public static void DisplayFinalScores(List<Player> players, Dictionary<int, double> finalScores)
+        {
+            int i = 0;
+            WriteLine("FINAL RESULTS");
+            WriteLine("==============================================");
+            WriteLine("Place   Player                           Score");
+            WriteLine("----------------------------------------------");
+            foreach (KeyValuePair<int, double> score in finalScores)
+            {
+                i++;
+                WriteLine(i.ToString().PadRight(8) + players[score.Key].Name.Substring(0,15).PadRight(18) + score.Value.ToString("C2").PadLeft(20));
+            }
+        }
         public static void DisplayForecast(List<Weather> forecast)
         {
             WriteLine($"{forecast.Count} Day Forecast");
@@ -24,15 +37,29 @@ namespace LemonadeStand
             WriteLine($"{player.Name} your current bank account balance is ${player.BankBalance}\n");
         }
 
-        public static void DisplayPlayerDayResults (Player player)
+        public static void DisplayPlayerDayResults (Player player, int dayNumber)
         {
-            // Day # Results for Name's Lemonade Stand
-            // X Actual Customers
-            // X Missed Customers
-            // Starting Cash
-            // Sales (Starting cash - ending cash)
-            // Ending Cash
-            // RanOutOfInventory ? Note: Day ended early due to running out of invetory
+            int missedCustomerCount = player.DayDetails[dayNumber].PotentialCustomerCount - player.DayDetails[dayNumber].ActualCustomerCount;
+            double totalSales = player.DayDetails[dayNumber].BankAccountEndingBalance - player.DayDetails[dayNumber].BankAccountStartingBalance;
+            
+            WriteLine($"Day {dayNumber} Results for {player.Name}");
+            WriteLine("==============================================");
+
+            WriteLine("CUSTOMERS");
+            WriteLine($"Customers Served: {player.DayDetails[dayNumber].ActualCustomerCount}");
+            WriteLine($"Customers Missed: {missedCustomerCount:G0}\n");
+
+            WriteLine("CASH FLOW");
+            WriteLine($"Beginning Balance: {player.DayDetails[dayNumber].BankAccountStartingBalance:C2}");
+            WriteLine($"Total Sales: {totalSales:C2}");
+            WriteLine($"Beginning Balance: {player.DayDetails[dayNumber].BankAccountEndingBalance:C2}");
+
+            if (player.DayDetails[dayNumber].RanOutOfInventory)
+            {
+                WriteLine("\n**********************************************************************************");
+                WriteLine("*Your day ended early as you ran out of needed inventory to serve your customers.*");
+                WriteLine("**********************************************************************************");
+            }
         }
 
         public static void DisplayStoreProducts(Store store)
