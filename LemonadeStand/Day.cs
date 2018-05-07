@@ -53,7 +53,10 @@ namespace LemonadeStand
 
         private int CalculateCustomerCount()
         {
-            return random.Next(minPotentialCustomers, maxPotentialCustomers) * (forecast[0].TempratureHigh / Weather.MaxTempratureHigh) / (forecast[0].ConditionIndex + 1);
+            double output = random.Next(minPotentialCustomers, maxPotentialCustomers);
+            output = output * (forecast[0].TempratureHigh / Weather.MaxTempratureHigh);
+            output = output / (forecast[0].ConditionIndex + 1);
+            return Convert.ToInt16(Convert.ToDouble(random.Next(minPotentialCustomers, maxPotentialCustomers)) * (Convert.ToDouble(forecast[0].TempratureHigh) / Convert.ToDouble(Weather.MaxTempratureHigh)) / Convert.ToDouble((forecast[0].ConditionIndex + 1)));
         }
 
         private void CreateCustomers()
@@ -139,7 +142,7 @@ namespace LemonadeStand
 
                 SimulateCustomers(player, i);
 
-                UI.DisplayPlayerDayResults(player, dayNumber);
+                UI.DisplayPlayerDayResults(player, dayNumber + 1);
 
             }
         }

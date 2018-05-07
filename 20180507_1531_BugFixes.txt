@@ -1,0 +1,7 @@
+Status	File	Line	Comment
+X	Day		Need to call CreateCustomers() in constructor, right now no customers are being created
+
+X	Day	 145	Need to increment the display of the number by 1 to avoid Day 0
+X	Game	  46	Need to call GetFinalScores()
+
+

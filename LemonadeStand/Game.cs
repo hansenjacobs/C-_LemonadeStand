@@ -44,6 +44,7 @@ namespace LemonadeStand
                 days[i].SimulateDay();
             }
 
+            GetFinalScores();
             UI.DisplayFinalScores(players, finalScores);
         }
 
