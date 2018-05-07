@@ -1,0 +1,16 @@
+Status	File	Line	Comment
+X	UI	  81	Move this line down to be a part of the loop - ask on every iteration
+X	UI	 113	Add a new line at the start of the string (\n) for user readability
+X	Player		Add a line within constructor that creates the new dictionary for inventory
+X	Player		Add a line within constructor that creates the new list for dayDetails
+
+X	Game	  99	Increment i by one IN THE STRING so that Player 1 is player 1 not player 0
+X	Game	  81	Include acceptable input options in message - <yes/no>
+X	Unknown	Ukwn	All forecasts are resulting in a condition of 'mostly sunny'
+				Weather class never called DetermineCondition() in constructor (Weather 29)
+X	Player		Name Property = Update to return all uppercase (ToUpper())
+X	UI		GetInput, write a blank line after every read line
+
+X	UI	  71	The substring extracts 15 chars, but if there are less than 15, it will error
+
+

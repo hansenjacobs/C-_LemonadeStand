@@ -26,6 +26,7 @@ namespace LemonadeStand
             CreateForecast();
             recipes = new List<Recipe>();
             customers = new List<Customer>();
+            CreateCustomers();
             this.players = players;
             this.dayNumber = dayNumber;
         }    
@@ -38,6 +39,8 @@ namespace LemonadeStand
             Forecast.RemoveAt(0);
             Updateforecast();
             recipes = new List<Recipe>();
+            customers = new List<Customer>();
+            CreateCustomers();
             this.players = players;
             this.dayNumber = dayNumber;
         }
