@@ -86,54 +86,59 @@ namespace LemonadeStand
             }
         }
 
-        public void SimulateDay()
+        private void SimulateCustomers(Player player, int playerIndex)
         {
-            for(int i = 0; i < players.Count; i++)
-            {
-                Player player = players[i];
-                int cupsRemainingInPitcher = 0;
-                player.DayDetails.Insert(dayNumber, new DayDetails());
-                player.DayDetails[dayNumber].BankAccountStartingBalance = player.BankBalance;
-                player.DayDetails[dayNumber].BankAccountEndingBalance = player.BankBalance;
-                player.DayDetails[dayNumber].PotentialCustomerCount = customers.Count;
+            int cupsRemainingInPitcher = 0;
 
-                foreach(Customer customer in customers)
+            foreach (Customer customer in customers)
+            {
+                if (customer.DoesPurchase(forecast[0], recipes[playerIndex]))
                 {
-                    if (customer.DoesPurchase(forecast[0], recipes[i]))
+                    if (cupsRemainingInPitcher > 0 && player.Invetory["cup"] > 0 && player.Invetory["ice cube"] >= recipes[playerIndex].IceCubeCount)
                     {
-                        if (cupsRemainingInPitcher > 0 && player.Invetory["cup"] > 0 && player.Invetory["ice cube"] >= recipes[i].IceCubeCount)
+                        player.DayDetails[dayNumber].RecordPurchase(recipes[playerIndex].SellPrice);
+                        cupsRemainingInPitcher--;
+                    }
+                    else if (player.Invetory["cup"] > 0 && player.Invetory["ice cube"] >= recipes[playerIndex].IceCubeCount)
+                    {
+                        if (player.MakePitcher(recipes[playerIndex]))
                         {
-                            player.DayDetails[dayNumber].RecordPurchase(recipes[i].SellPrice);
+                            cupsRemainingInPitcher = Recipe.CupsPerPitcher;
+                            player.DayDetails[dayNumber].RecordPurchase(recipes[playerIndex].SellPrice);
                             cupsRemainingInPitcher--;
-                        }
-                        else if (player.Invetory["cup"] > 0 && player.Invetory["ice cube"] >= recipes[i].IceCubeCount)
-                        {
-                            if (player.MakePitcher(recipes[i]))
-                            {
-                                cupsRemainingInPitcher = Recipe.CupsPerPitcher;
-                                player.DayDetails[dayNumber].RecordPurchase(recipes[i].SellPrice);
-                                cupsRemainingInPitcher--;
-                            }
-                            else
-                            {
-                                player.DayDetails[dayNumber].RanOutOfInventory = true;
-                                break;
-                            }
                         }
                         else
                         {
                             player.DayDetails[dayNumber].RanOutOfInventory = true;
                             break;
                         }
-
+                    }
+                    else
+                    {
+                        player.DayDetails[dayNumber].RanOutOfInventory = true;
+                        break;
                     }
 
                 }
 
             }
-            
-            // Display day results for each player
+        }
 
+        public void SimulateDay()
+        {
+            for(int i = 0; i < players.Count; i++)
+            {
+                Player player = players[i];
+                player.DayDetails.Insert(dayNumber, new DayDetails());
+                player.DayDetails[dayNumber].BankAccountStartingBalance = player.BankBalance;
+                player.DayDetails[dayNumber].BankAccountEndingBalance = player.BankBalance;
+                player.DayDetails[dayNumber].PotentialCustomerCount = customers.Count;
+
+                SimulateCustomers(player, i);
+
+                UI.DisplayPlayerDayResults(player, dayNumber);
+
+            }
         }
 
         private void Updateforecast()

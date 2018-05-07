@@ -24,6 +24,17 @@ namespace LemonadeStand
             WriteLine($"{player.Name} your current bank account balance is ${player.BankBalance}\n");
         }
 
+        public static void DisplayPlayerDayResults (Player player)
+        {
+            // Day # Results for Name's Lemonade Stand
+            // X Actual Customers
+            // X Missed Customers
+            // Starting Cash
+            // Sales (Starting cash - ending cash)
+            // Ending Cash
+            // RanOutOfInventory ? Note: Day ended early due to running out of invetory
+        }
+
         public static void DisplayStoreProducts(Store store)
         {
             WriteLine("PRODUCT        PRICE");
