@@ -34,15 +34,17 @@ namespace LemonadeStand
 
         public string Name
         {
-            get { return name; }
+            get { return name.ToUpper(); }
 
-            set { name = value; }
+            set { name = value.ToUpper(); }
         }
 
         public Player(Store store)
         {
             bankBalance = 50;
             name = "";
+            inventory = new Dictionary<string, int>();
+            dayDetails = new List<DayDetails>();
             for(int i = 0; i < store.Products.Count; i++)
             {
                 inventory.Add(store.Products[i].Name, 0);

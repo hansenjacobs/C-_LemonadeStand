@@ -68,7 +68,14 @@ namespace LemonadeStand
 
             for (int i = 0; i < store.Products.Count; i++)
             {
-                WriteLine(store.Products[i].Name.Substring(0, 15).PadRight(15) + store.Products[i].Price + "/" + store.Products[i].Unit);
+                if(store.Products[i].Name.Length > 15)
+                {
+                    WriteLine(store.Products[i].Name.Substring(0, 15)+ store.Products[i].Price + "/" + store.Products[i].Unit);
+                }
+                else
+                {
+                    WriteLine(store.Products[i].Name.PadRight(15) + store.Products[i].Price + "/" + store.Products[i].Unit);
+                }
             }
             WriteLine("");
         }
@@ -78,10 +85,12 @@ namespace LemonadeStand
             string input;
             bool isInvalid = true;
 
-            WriteLine(message);
             do
             {
+                WriteLine(message);
+
                 input = Console.ReadLine().ToLower();
+                WriteLine("");
 
                 switch (type)
                 {
@@ -110,7 +119,7 @@ namespace LemonadeStand
 
                 if (isInvalid)
                 {
-                    WriteLine("Invalid input, " + type + " expected.  Please try again.");
+                    WriteLine("\nInvalid input, " + type + " expected.  Please try again.");
                 }
             } while (isInvalid);
 

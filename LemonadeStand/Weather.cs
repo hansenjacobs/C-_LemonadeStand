@@ -26,6 +26,7 @@ namespace LemonadeStand
             {
                 CreateConditionsList();
             }
+            DetermineCondition();
         }
 
         public string Condition

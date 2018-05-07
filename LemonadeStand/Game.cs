@@ -78,7 +78,7 @@ namespace LemonadeStand
         private void SetupComputerPlayer()
         {
             bool includeComputerPlayer;
-            includeComputerPlayer = UI.GetInput("Would you like to include a computer player?", "yes/no") == "yes" ? true : false;
+            includeComputerPlayer = UI.GetInput("Would you like to include a computer player? <yes/no>", "yes/no") == "yes" ? true : false;
 
             if (includeComputerPlayer)
             {
@@ -95,8 +95,9 @@ namespace LemonadeStand
 
             for (int i = 0; i < playerCount; i++)
             {
+                // int playerLabel = i + 1;
                 players.Add(new Human(store));
-                players[i].SetPlayerName($"Player {i}");
+                players[i].SetPlayerName($"Player {i + 1}");
             }
         }
 
