@@ -9,8 +9,6 @@ namespace LemonadeStand
     class Day
     {
         static int numberOfDaysToforecastWeather = 7;
-        static int minPotentialCustomers = 0;
-        static int maxPotentialCustomers = 175;
 
         List<Weather> forecast;
         Random random;

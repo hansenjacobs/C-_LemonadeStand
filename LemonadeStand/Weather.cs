@@ -15,7 +15,7 @@ namespace LemonadeStand
         static int percentageDivisor = 100;
         static int maxTempratureAlerterationPercent = 5; // Int will be devided to calculate percentage.
         static int minTempratureHigh = 55;
-        static int maxTempratureHigh = 120;
+        static int maxTempratureHigh = 98;
 
         public Weather(Random random)
         {

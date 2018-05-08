@@ -42,7 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Computer.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Day.cs" />

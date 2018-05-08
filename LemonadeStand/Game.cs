@@ -72,18 +72,6 @@ namespace LemonadeStand
             }
         }
 
-        private void SetupComputerPlayer()
-        {
-            bool includeComputerPlayer;
-            includeComputerPlayer = UI.GetInput("Would you like to include a computer player? <yes/no>", "yes/no") == "yes" ? true : false;
-
-            if (includeComputerPlayer)
-            {
-                players.Add(new Computer(random, store));
-                players[players.Count - 1].SetPlayerName("Computer Player");
-            }
-        }
-
         private void SetupHumanPlayers()
         {
             int playerCount;
@@ -102,7 +90,6 @@ namespace LemonadeStand
         {
 
             SetupHumanPlayers();
-            SetupComputerPlayer();
             
         }
     }
