@@ -1,0 +1,7 @@
+CREATE TABLE HighScores
+	(
+	RowID INT IDENTITY(1,1) PRIMARY KEY,
+	PlayerName VARCHAR(50) NOT NUll,
+	Score DECIMAL (10, 2) NOT NULL,
+	ScoreDateTime DATETIME DEFAULT (GetDate())
+	);

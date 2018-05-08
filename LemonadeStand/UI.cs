@@ -290,10 +290,11 @@ namespace LemonadeStand
 
         }
 
-        public static void WelcomeMessage()
+        public static void WelcomeMessage(Database databse)
         {
-            WriteLine("LEMONADE STAND");
-            WriteLine("===============\n");
+            WriteLine("         LEMONADE STAND GAME");
+            WriteLine("=====================================\n");
+            WriteLine(databse.GetHighScores());
         }
 
         public static void WriteLine(string message)

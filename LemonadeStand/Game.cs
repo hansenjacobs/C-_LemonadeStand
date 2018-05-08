@@ -14,6 +14,7 @@ namespace LemonadeStand
         int numberOfDaysToPlay;
         Random random;
         Store store;
+        Database database;
 
         public Game()
         {
@@ -22,10 +23,14 @@ namespace LemonadeStand
             days = new List<Day>();
             numberOfDaysToPlay = 2;
             store = new Store();
+            database = new Database();
         }
 
         public void RunGame()
         {
+
+            UI.WelcomeMessage(database);
+
             SetupPlayers();
 
             for (int i = 0; i < numberOfDaysToPlay; i++)
@@ -46,6 +51,7 @@ namespace LemonadeStand
 
             GetFinalScores();
             UI.DisplayFinalScores(players, finalScores);
+
         }
 
         private void GetFinalScores()
@@ -54,6 +60,7 @@ namespace LemonadeStand
             for (int i = 0; i < players.Count; i++)
             {
                 finalScores.Add(i, players[i].BankBalance);
+                database.AddScore(players[i].Name, players[i].BankBalance);
             }
         }
 

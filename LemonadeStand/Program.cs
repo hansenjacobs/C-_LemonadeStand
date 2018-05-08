@@ -15,7 +15,6 @@ namespace LemonadeStand
             {
                 game.RunGame();
             } while (UI.GetInput("Would you like to play again? <yes/no>", "yes/no") == "yes");
-            
         }
     }
 }
