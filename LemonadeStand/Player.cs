@@ -8,6 +8,8 @@ namespace LemonadeStand
 {
     abstract public class Player
     {
+        static double beginningBankBalance = 50;
+
         double bankBalance;
         string name;
         Dictionary<string, int> inventory;
@@ -17,7 +19,13 @@ namespace LemonadeStand
         public double BankBalance
         {
             get { return bankBalance; }
-            private set { bankBalance = value; }
+            set { bankBalance = value; }
+        }
+
+        public static double BeginningBankBalance
+        {
+            get { return beginningBankBalance; }
+            private set { beginningBankBalance = value; }
         }
 
         public List<DayDetails> DayDetails
@@ -41,7 +49,7 @@ namespace LemonadeStand
 
         public Player(Store store)
         {
-            bankBalance = 50;
+            bankBalance = beginningBankBalance;
             name = "";
             inventory = new Dictionary<string, int>();
             dayDetails = new List<DayDetails>();

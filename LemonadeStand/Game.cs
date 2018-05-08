@@ -20,7 +20,7 @@ namespace LemonadeStand
             random = new Random();
             players = new List<Player>();
             days = new List<Day>();
-            numberOfDaysToPlay = 7;
+            numberOfDaysToPlay = 2;
             store = new Store();
         }
 
@@ -54,17 +54,6 @@ namespace LemonadeStand
             for (int i = 0; i < players.Count; i++)
             {
                 finalScores.Add(i, players[i].BankBalance);
-            }
-
-            var scores = from pair in finalScores
-                         orderby pair.Value descending
-                         select pair;
-
-            finalScores.Clear();
-
-            foreach(KeyValuePair<int, double> score in scores)
-            {
-                finalScores.Add(score.Key, score.Value);
             }
         }
 

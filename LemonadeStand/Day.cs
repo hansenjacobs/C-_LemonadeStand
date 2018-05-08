@@ -53,10 +53,25 @@ namespace LemonadeStand
 
         private int CalculateCustomerCount()
         {
-            double output = random.Next(minPotentialCustomers, maxPotentialCustomers);
-            output = output * (forecast[0].TempratureHigh / Weather.MaxTempratureHigh);
-            output = output / (forecast[0].ConditionIndex + 1);
-            return Convert.ToInt16(Convert.ToDouble(random.Next(minPotentialCustomers, maxPotentialCustomers)) * (Convert.ToDouble(forecast[0].TempratureHigh) / Convert.ToDouble(Weather.MaxTempratureHigh)) / Convert.ToDouble((forecast[0].ConditionIndex + 1)));
+            int baseCustomerCount;
+            switch (forecast[0].ConditionIndex)
+            {
+                case 0:
+                    baseCustomerCount = 250;
+                    break;
+                case 1:
+                case 2:
+                    baseCustomerCount = 175;
+                    break;
+                case 3:
+                case 4:
+                    baseCustomerCount = 110;
+                    break;
+                default:
+                    baseCustomerCount = 39;
+                    break;
+            }
+            return Convert.ToInt16(Convert.ToDouble(baseCustomerCount) * (Convert.ToDouble(forecast[0].TempratureHigh) / Convert.ToDouble(Weather.MaxTempratureHigh)) / Convert.ToDouble((forecast[0].ConditionIndex + 1)));
         }
 
         private void CreateCustomers()
@@ -104,6 +119,8 @@ namespace LemonadeStand
                     {
                         player.DayDetails[dayNumber].RecordPurchase(recipes[playerIndex].SellPrice);
                         cupsRemainingInPitcher--;
+                        player.Invetory["cup"]--;
+                        player.Invetory["ice cube"] -= recipes[playerIndex].IceCubeCount;
                     }
                     else if (player.Invetory["cup"] > 0 && player.Invetory["ice cube"] >= recipes[playerIndex].IceCubeCount)
                     {
@@ -112,6 +129,8 @@ namespace LemonadeStand
                             cupsRemainingInPitcher = Recipe.CupsPerPitcher;
                             player.DayDetails[dayNumber].RecordPurchase(recipes[playerIndex].SellPrice);
                             cupsRemainingInPitcher--;
+                            player.Invetory["cup"]--;
+                            player.Invetory["ice cube"] -= recipes[playerIndex].IceCubeCount;
                         }
                         else
                         {
@@ -142,7 +161,9 @@ namespace LemonadeStand
 
                 SimulateCustomers(player, i);
 
-                UI.DisplayPlayerDayResults(player, dayNumber + 1);
+                player.BankBalance = player.DayDetails[dayNumber].BankAccountEndingBalance;
+
+                UI.DisplayPlayerDayResults(player, dayNumber);
 
             }
         }

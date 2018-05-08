@@ -12,13 +12,20 @@ namespace LemonadeStand
         {
             int i = 0;
             WriteLine("FINAL RESULTS");
-            WriteLine("==============================================");
-            WriteLine("Place   Player                           Score");
-            WriteLine("----------------------------------------------");
+            WriteLine("======================================");
+            WriteLine("Player                     Profit/Loss");
+            WriteLine("--------------------------------------");
             foreach (KeyValuePair<int, double> score in finalScores)
             {
                 i++;
-                WriteLine(i.ToString().PadRight(8) + players[score.Key].Name.Substring(0,15).PadRight(18) + score.Value.ToString("C2").PadLeft(20));
+                if(players[score.Key].Name.Length < 15)
+                {
+                    WriteLine(players[score.Key].Name.PadRight(18) + (score.Value - Player.BeginningBankBalance).ToString("C2").PadLeft(20));
+                }
+                else
+                {
+                    WriteLine(players[score.Key].Name.Substring(0, 18) + (score.Value - Player.BeginningBankBalance).ToString("C2").PadLeft(20));
+                }
             }
         }
         public static void DisplayForecast(List<Weather> forecast)
@@ -42,7 +49,7 @@ namespace LemonadeStand
             int missedCustomerCount = player.DayDetails[dayNumber].PotentialCustomerCount - player.DayDetails[dayNumber].ActualCustomerCount;
             double totalSales = player.DayDetails[dayNumber].BankAccountEndingBalance - player.DayDetails[dayNumber].BankAccountStartingBalance;
             
-            WriteLine($"Day {dayNumber} Results for {player.Name}");
+            WriteLine($"Day {dayNumber + 1} Results for {player.Name}");
             WriteLine("==============================================");
 
             WriteLine("CUSTOMERS");
@@ -52,13 +59,34 @@ namespace LemonadeStand
             WriteLine("CASH FLOW");
             WriteLine($"Beginning Balance: {player.DayDetails[dayNumber].BankAccountStartingBalance:C2}");
             WriteLine($"Total Sales: {totalSales:C2}");
-            WriteLine($"Beginning Balance: {player.DayDetails[dayNumber].BankAccountEndingBalance:C2}");
+            WriteLine($"Ending Balance: {player.DayDetails[dayNumber].BankAccountEndingBalance:C2}");
+            WriteLine($"Running Profit/Loss {player.DayDetails[dayNumber].BankAccountEndingBalance - Player.BeginningBankBalance}");
 
             if (player.DayDetails[dayNumber].RanOutOfInventory)
             {
                 WriteLine("\n**********************************************************************************");
                 WriteLine("*Your day ended early as you ran out of needed inventory to serve your customers.*");
                 WriteLine("**********************************************************************************");
+            }
+
+            WriteLine("");
+        }
+
+        public static void DisplayPlayerInventory(Player player)
+        {
+            WriteLine($"{player.Name}'S INVENTORY");
+            WriteLine("\nProduct           Qty");
+
+            foreach(KeyValuePair<string, int> pair in player.Invetory)
+            {
+                if(pair.Key.Length < 15)
+                {
+                    WriteLine(pair.Key.PadRight(15) + pair.Value.ToString("G0").PadLeft(6));
+                }
+                else
+                {
+                    WriteLine(pair.Key.Substring(0, 15) + pair.Value.ToString("G0").PadLeft(6));
+                }
             }
         }
 
@@ -70,11 +98,11 @@ namespace LemonadeStand
             {
                 if(store.Products[i].Name.Length > 15)
                 {
-                    WriteLine(store.Products[i].Name.Substring(0, 15)+ store.Products[i].Price + "/" + store.Products[i].Unit);
+                    WriteLine(store.Products[i].Name.Substring(0, 15)+ store.Products[i].Price.ToString("G2") + "/" + store.Products[i].Unit);
                 }
                 else
                 {
-                    WriteLine(store.Products[i].Name.PadRight(15) + store.Products[i].Price + "/" + store.Products[i].Unit);
+                    WriteLine(store.Products[i].Name.PadRight(15) + store.Products[i].Price.ToString("G2") + "/" + store.Products[i].Unit);
                 }
             }
             WriteLine("");
@@ -131,6 +159,7 @@ namespace LemonadeStand
             string input;
             do
             {
+                DisplayPlayerInventory(player);
                 DisplayPlayerBankBalance(player);
                 WriteLine("");
                 DisplayStoreProducts(store);
