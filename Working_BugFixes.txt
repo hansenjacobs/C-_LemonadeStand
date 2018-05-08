@@ -1,0 +1,5 @@
+Status	File	Line	Comment
+	None	None	Need to display the current inventory at some point - when asking if go to store?
+
+
+

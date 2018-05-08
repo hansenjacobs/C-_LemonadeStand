@@ -1,0 +1,6 @@
+Status	File	Line	Comment
+X	UI	None	Need to display the current inventory at some point - when asking if go to store?
+				Created DisplayPlayerInventory in UI, to be called in loop of GoShopping()
+
+
+
