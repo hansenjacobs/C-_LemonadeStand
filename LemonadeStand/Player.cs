@@ -66,7 +66,14 @@ namespace LemonadeStand
 
             if(inventory.TryGetValue(item, out currentQuanity))
             {
-                inventory[item] = currentQuanity + quanityIncrementer;
+                if(int.MaxValue - currentQuanity >= quanityIncrementer)
+                {
+                    inventory[item] = currentQuanity + quanityIncrementer;
+                }
+                else
+                {
+                    throw new OverflowException();
+                }
             }
             else
             {
@@ -116,9 +123,11 @@ namespace LemonadeStand
             return false;
         }
 
-        public double ProcessBankTransaction(double transactionAmount)
+        public double ProcessBankTransaction(double increaseBalanceBy)
         {
-            return BankBalance += transactionAmount;
+            if(double.MaxValue - bankBalance <= increaseBalanceBy) { throw new OverflowException(); }
+            if(double.MinValue + bankBalance >= increaseBalanceBy) { throw new OverflowException(); }
+            return BankBalance += increaseBalanceBy;
         }
 
         public void SetPlayerName(string playerLabel)
