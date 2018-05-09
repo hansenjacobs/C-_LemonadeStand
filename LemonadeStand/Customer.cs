@@ -16,6 +16,7 @@ namespace LemonadeStand
         int tasteProfile;
         int preferedIceCubeCount;
         int worstWeatherConditionsToBuy;
+        double highestPriceToPay;
 
         public Customer(Random random, Weather forecast)
         {
@@ -32,7 +33,7 @@ namespace LemonadeStand
             {
                 if(recipe.TasteProfile == Recipe.TasteProfiles[tasteProfile])
                 {
-                    if(recipe.IceCubeCount >= preferedIceCubeCount - 1 && recipe.IceCubeCount <= preferedIceCubeCount + 1)
+                    if(recipe.IceCubeCount >= preferedIceCubeCount - 1 && recipe.IceCubeCount <= preferedIceCubeCount + 1 && recipe.SellPrice <= highestPriceToPay)
                     {
                         return true;
                     }
@@ -45,6 +46,23 @@ namespace LemonadeStand
         private string TasteProfile
         {
             get { return Recipe.TasteProfiles[tasteProfile]; }
+        }
+
+        private void SetHighestPriceToPay()
+        {
+            bool increaseHighestPriceToPay;
+
+            increaseHighestPriceToPay = random.Next(-1, 3) < 0 ? false : true;
+
+            if (increaseHighestPriceToPay)
+            {
+                int increase = random.Next(10, 25) / 10;
+                highestPriceToPay = Store.BaseCupCost * increase;
+            }
+            else
+            {
+                highestPriceToPay = Store.BaseCupCost;
+            }
         }
 
         private void SetTasteProfile()

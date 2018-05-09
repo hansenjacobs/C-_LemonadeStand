@@ -1,5 +1,11 @@
 Status	File	Line	Comment
-	None	None	Need to display the current inventory at some point - when asking if go to store?
-
-
+X	UI	91/95	Format prices of products when in the store
+	Day	Ukwn	DetermineCustomerCount, change to start with a static number, add a small random number for variation
+X	UI	   64	Display Day Results, add new line at end of it
+X	Day	107-108	Ice & Cups are not decreasing
+X		117-118	Ice & Cups are not decreasing
+X	UI	55	Display day details, Ending cash label reads beginning.
+X	Day	145	Transactions are not increasing actual cash
+X	Game	Ukwn	Final scores are not being loaded
+X	Game	23	Reset numberOfDayToPlay = 7
 

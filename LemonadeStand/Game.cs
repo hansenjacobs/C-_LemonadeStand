@@ -80,7 +80,6 @@ namespace LemonadeStand
 
             for (int i = 0; i < playerCount; i++)
             {
-                // int playerLabel = i + 1;
                 players.Add(new Human(store));
                 players[i].SetPlayerName($"Player {i + 1}");
             }
