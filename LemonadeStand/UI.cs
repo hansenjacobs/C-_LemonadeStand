@@ -98,11 +98,11 @@ namespace LemonadeStand
             {
                 if(store.Products[i].Name.Length > 15)
                 {
-                    WriteLine(store.Products[i].Name.Substring(0, 15)+ store.Products[i].Price.ToString("G2") + "/" + store.Products[i].Unit);
+                    WriteLine(store.Products[i].Name.Substring(0, 15)+ store.Products[i].Price.ToString("#,##0.00") + "/" + store.Products[i].Unit);
                 }
                 else
                 {
-                    WriteLine(store.Products[i].Name.PadRight(15) + store.Products[i].Price.ToString("G2") + "/" + store.Products[i].Unit);
+                    WriteLine(store.Products[i].Name.PadRight(15) + store.Products[i].Price.ToString("#,##0.00") + "/" + store.Products[i].Unit);
                 }
             }
             WriteLine("");

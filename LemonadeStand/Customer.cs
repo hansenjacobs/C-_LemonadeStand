@@ -24,6 +24,7 @@ namespace LemonadeStand
             this.forecast = forecast;
             SetTasteProfile();
             SetWorstWeatherToBuy();
+            SetHighestPriceToPay();
             preferedIceCubeCount = random.Next(minIceCubeCount, maxIceCubeCount);
         }
 
@@ -31,9 +32,9 @@ namespace LemonadeStand
         {
             if(weather.ConditionIndex <= worstWeatherConditionsToBuy)
             {
-                if(recipe.TasteProfile == Recipe.TasteProfiles[tasteProfile])
+                if(recipe.TasteProfile == Recipe.TasteProfiles[tasteProfile] || recipe.TasteProfile == "balanced")
                 {
-                    if(recipe.IceCubeCount >= preferedIceCubeCount - 1 && recipe.IceCubeCount <= preferedIceCubeCount + 1 && recipe.SellPrice <= highestPriceToPay)
+                    if(((recipe.IceCubeCount >= preferedIceCubeCount - 1 && recipe.IceCubeCount <= preferedIceCubeCount + 1) || random.Next(0, 1) == 1) && recipe.SellPrice <= highestPriceToPay)
                     {
                         return true;
                     }
@@ -52,11 +53,11 @@ namespace LemonadeStand
         {
             bool increaseHighestPriceToPay;
 
-            increaseHighestPriceToPay = random.Next(-1, 3) < 0 ? false : true;
+            increaseHighestPriceToPay = random.Next(-1, 10) < 0 ? false : true;
 
             if (increaseHighestPriceToPay)
             {
-                int increase = random.Next(10, 25) / 10;
+                double increase = random.Next(10, 25) / 10;
                 highestPriceToPay = Store.BaseCupCost * increase;
             }
             else
@@ -72,7 +73,7 @@ namespace LemonadeStand
 
         private void SetWorstWeatherToBuy()
         {
-            worstWeatherConditionsToBuy = random.Next(Weather.Conditions.Count);
+            worstWeatherConditionsToBuy = random.Next(2,Weather.Conditions.Count);
         }
     }
 }

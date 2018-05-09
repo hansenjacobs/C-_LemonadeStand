@@ -21,7 +21,7 @@ namespace LemonadeStand
             random = new Random();
             players = new List<Player>();
             days = new List<Day>();
-            numberOfDaysToPlay = 2;
+            numberOfDaysToPlay = 7;
             store = new Store();
             database = new Database();
         }
