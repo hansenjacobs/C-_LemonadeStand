@@ -37,6 +37,7 @@ namespace LemonadeStand
                     if(((recipe.IceCubeCount >= preferedIceCubeCount - 1 && recipe.IceCubeCount <= preferedIceCubeCount + 1) || random.Next(0, 1) == 1) && recipe.SellPrice <= highestPriceToPay)
                     {
                         return true;
+
                     }
                 }
             }
